@@ -61,8 +61,8 @@ function recursion($data, $low, $high, $value)
  * @param Array $data 有序重复数组(升序)
  * @param Int $value 查找值
  * test:
- * $data = [];
- * $
+ * $data = [0, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 10, 10, 10, 11, 12, 12, 12, 13, 14, 15, 16, 17];
+ * var_Dump(bSearch_3($data, 10));
  * */
 function bSearch_3($data, $value)
 {
@@ -82,9 +82,99 @@ function bSearch_3($data, $value)
             else $high = $mid - 1;
         }
     }
+
+    return -1;
 }
 
-$data = [0, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 10, 10, 10, 11, 12, 12, 12, 13, 14, 15, 16, 17];
-var_Dump(bSearch_3($data, 10));
+/*
+ * 4.二分查找算法(折半查找算法) - 查找最后一个值等于给定值的元素
+ * @param Array $data 有序重复数组(升序)
+ * @param Int $value 查找值
+ * test:
+ * $data = [0, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 10, 10, 10, 11, 12, 12, 12, 13, 14, 15, 16, 17];
+ * var_Dump(bSearch_4($data, 10));
+ * */
+function bSearch_4($data, $value)
+{
+    if(count($data) <= 1) return $data;
+    $n = count($data);
+    $low = 0;
+    $high = $n - 1;
+
+    while($low <= $high) {
+        $mid = floor(($low + $high) / 2);
+        if($data[$mid] > $value) {
+            $high = $mid - 1;
+        } else if($data[$mid] < $value) {
+            $low = $mid + 1;
+        } else {
+            if($mid == ($n - 1) || $data[$mid + 1] != $value) return $mid;
+            else $low = $mid + 1;
+        }
+    }
+
+    return -1;
+}
+
+/*
+ * 5.二分查找算法(折半查找算法) - 查找第一个大于等于给定值的元素
+ * @param Array $data 有序重复数组(升序)
+ * @param Int $value 查找值
+ * test:
+ * $data = [0, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 11, 12, 12, 12, 13, 14, 15, 16, 17];
+ * var_Dump(bSearch_5($data, 10));
+ * */
+function bSearch_5($data, $value)
+{
+    if(count($data) <= 1) return $data;
+    $n = count($data);
+    $low = 0;
+    $high = $n - 1;
+
+    while($low <= $high) {
+        $mid = floor(($low + $high) / 2);
+        if($data[$mid] >= $value) {
+            if($data[$mid] == 0 || $data[$mid - 1] < $value) return $mid;
+            else $high = $mid - 1;
+        } else {
+            $low = $mid + 1;
+        }
+    }
+
+    return -1;
+}
+
+/*
+ * 6.二分查找算法(折半查找算法) - 查找最后一个小于等于给定值的元素
+ * @param Array $data 有序重复数组(升序)
+ * @param Int $value 查找值
+ * test:
+ * $data = [0, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 11, 12, 12, 12, 13, 14, 15, 16, 17];
+ * var_Dump(bSearch_6($data, 4));
+ * */
+function bSearch_6($data, $value)
+{
+    if(count($data) <= 1) return $data;
+    $n = count($data);
+    $low = 0;
+    $high = $n - 1;
+
+    while($low <= $high) {
+        $mid = floor(($low + $high) / 2);
+        if($data[$mid] > $value) {
+            //if($data[$mid] == 0 || $data[$mid - 1] < $value) return $mid;
+            //else $high = $mid - 1;
+            $high = $mid - 1;
+        } else {
+            if($data[$mid] == ($n - 1) || $data[$mid + 1] > $value) return $mid;
+            else $low = $mid + 1;
+        }
+    }
+
+    return -1;
+}
+
+
+
 
 
