@@ -68,6 +68,61 @@ class Tree
     }
 
     /*
+     * 删除操作
+     * */
+    public function delete($data)
+    {
+        // 找到需要删除节点
+        $node = $this->head;
+        $pnode = null;
+        while ($node != null) {
+            if ($node->data == $data) {
+                break;
+            } elseif ($data > $node->data) {
+                $pnode = $node;
+                $node = $node->right;
+            } else {
+                $pnode = $node;
+                $node = $node->left;
+            }
+        }
+        if ($node == null) {
+            return false;
+        }
+        // 要删除的节点有两个子节点
+        // 查找右子树中最小节点
+        if ($node->left != null && $node->right != null) {
+            $minPP = $node;
+            $minP = $node->right;
+            while ($minP->left != null) {
+                $minPP = $minP;
+                $minP = $minP->left;
+            }
+            $node->data = $minP->data;
+            $node = $minP;
+            // 删除掉右子树中的最小节点
+            $minPP->left = null;
+        }
+
+        if ($node->left != null) {
+            $child = $node->left;
+        } elseif ($node->right != null) {
+            $child = $node->right;
+        } else {
+            $child = null;
+        }
+
+        if ($pnode == null) {
+            // 删除的是根节点
+            $node = $child;
+        } elseif ($pnode->left == $node) {
+            $pnode->left = $child;
+        } else {
+            $pnode->right = $child;
+        }
+    }
+
+    /*
      * 先序遍历
      * */
     public function preOrder($node)

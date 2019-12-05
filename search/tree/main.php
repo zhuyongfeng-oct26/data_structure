@@ -12,4 +12,6 @@ $tree->insert('5');
 $tree->insert('6');
 //$tree->preOrder($tree->head);
 //$tree->inOrder($tree->head);
-$tree->postOrder($tree->head);
+//$tree->postOrder($tree->head);
+$tree->delete('1');
+$tree->preOrder($tree->head);
