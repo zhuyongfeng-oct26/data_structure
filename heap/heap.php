@@ -6,12 +6,14 @@
 class Heap{
 
     public $heap = [];  //初始化一个数组，下标从1开始
-    public $int = 10;   //堆中可存储元素个数
+    public $int = 0;   //堆中可存储元素个数
     public $count = 0;  //已存储元素个数
 
     public function __construct()
     {
         $this->heap[0] = 'head';
+        $this->int = 10;
+        $this->count = 0;
     }
 
     /*
@@ -41,27 +43,26 @@ class Heap{
      * */
     public function buildHeap()
     {
-        for($i = floor($this->count / 2); $i >= 1; $i--) {
-            $this->heapify($this->count, $i);
+        for($i = (intval($this->count / 2) - 1) + 1; $i >= 1; --$i) {
+            if($i * 2 < $this->count) {
+                if($this->heap[$i * 2] > $this->heap[$i]) {
+                    $this->swap($this->heap[$i * 2], $this->heap[$i]);
+                }
+                if($this->heap[$i * 2 + 1] > $this->heap[$i]){
+                    $this->swap($this->heap[$i * 2 + 1], $this->heap[$i]);
+                }
+            }
+
         }
+        return true;
     }
 
-    public function heapify($num, $i)
+    /*
+     * 数据交换
+     * */
+    public function swap(&$a, &$b)
     {
-        while(true){
-            $maxpos = $i;
-            if(floor(($i * 2)) < $num && $this->heap[floor(($i * 2))] >  $this->heap[$i]) {
-                $maxpos = floor(($i * 2));
-            }
-            if(floor(($i * 2) + 1) < $num && $this->heap[floor(($i * 2) + 1)] >  $this->heap[floor(($i * 2))]) {
-                $maxpos = floor(($i * 2) + 1);
-            }
-            if($maxpos == $i) break;
-            $temp = $this->heap[$i];
-            $this->heap[$i] = $this->heap[$maxpos];
-            $this->heap[$maxpos] = $temp;
-            $i = $maxpos;
-        }
+        list($a, $b) = array( $b, $a );
     }
 
     /*
@@ -88,12 +89,18 @@ class Heap{
 }
 
 $arr = new heap();
+/*
 $arr->insert(1);
 $arr->insert(4);
 $arr->insert(2);
 $arr->insert(5);
 $arr->insert(7);
 $arr->insert(6);
+ * */
+$arr->heap = ['head',5,6,4,1,2,8,9,3];
+$arr->count = 8;
+
+$arr->buildHeap();
 var_Dump($arr->heap);
 die();
 
